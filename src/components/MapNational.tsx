@@ -8,27 +8,15 @@ import type { Sido } from '../lib/sido';
 const W = 500;
 const H = 640;
 
-// 수도권 등 라벨이 겹치거나 좁은 지역의 숫자 위치를 px 단위로 미세 조정한다.
-// (viewport 500x640 고정 + 결정적 투영이므로 픽셀 오프셋이 안정적)
-const NUDGE: Partial<Record<Sido, [number, number]>> = {
-  '경기도': [24, -74],
-  '서울특별시': [-4, 2],
-  '인천광역시': [-20, -2],
-  '세종특별자치시': [-12, 4],
-  '대전광역시': [2, 8],
-  '광주광역시': [-2, 2],
-  '충청남도': [-14, 6],
-};
-
 export function MapNational() {
   const { data } = useGeo(asset('geo/sido.json'));
   const selectSido = useStore((s) => s.selectSido);
   const counts = useStore(countBySido);
 
-  const { path, features } = useMemo(() => {
-    if (!data) return { path: null as any, features: [] as any[] };
-    const projection = createProjection(data, W, H);
-    return { path: pathFor(projection), features: (data as any).features as any[] };
+  const { path, projection, features } = useMemo(() => {
+    if (!data) return { path: null as any, projection: null as any, features: [] as any[] };
+    const proj = createProjection(data, W, H);
+    return { path: pathFor(proj), projection: proj, features: (data as any).features as any[] };
   }, [data]);
 
   if (!data) return <div className="loading">지도를 불러오는 중…</div>;
@@ -62,10 +50,10 @@ export function MapNational() {
           const sido = f.properties.sido as Sido;
           const count = counts[sido] ?? 0;
           if (count === 0) return null;
-          const [cx, cy] = path.centroid(f);
-          const [dx, dy] = NUDGE[sido] ?? [0, 0];
-          const x = cx + dx;
-          const y = cy + dy;
+          // 지역 내부(경계로부터 가장 먼 지점)에 라벨을 둔다. 없으면 centroid.
+          const lp = f.properties.labelPoint as [number, number] | undefined;
+          const projected = lp ? projection(lp) : null;
+          const [x, y] = (projected as [number, number] | null) ?? path.centroid(f);
           return (
             <g key={sido} style={{ cursor: 'pointer' }} onClick={() => selectSido(sido)}>
               {/* 숫자를 눌러도 해당 지역이 선택되도록 하는 투명 히트 영역 */}

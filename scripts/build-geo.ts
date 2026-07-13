@@ -1,7 +1,32 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { feature } from 'topojson-client';
 import { geoCentroid } from 'd3-geo';
+import polylabel from 'polylabel';
 import { canonicalSido, type Sido } from '../src/lib/sido';
+
+// 다각형 내부에서 경계로부터 가장 먼 지점(pole of inaccessibility) = 라벨 최적 위치.
+// MultiPolygon(육지+섬)은 가장 넓은 폴리곤을 골라 그 안에 라벨을 둔다.
+function ringArea(ring: number[][]): number {
+  let a = 0;
+  for (let i = 0, n = ring.length, j = n - 1; i < n; j = i++) {
+    a += ring[j][0] * ring[i][1] - ring[i][0] * ring[j][1];
+  }
+  return Math.abs(a / 2);
+}
+function largestPolygon(geom: any): number[][][] {
+  if (geom.type === 'Polygon') return geom.coordinates;
+  let best = geom.coordinates[0];
+  let bestA = -1;
+  for (const poly of geom.coordinates) {
+    const a = ringArea(poly[0]);
+    if (a > bestA) { bestA = a; best = poly; }
+  }
+  return best;
+}
+function labelPointOf(geom: any): [number, number] {
+  const p = polylabel(largestPolygon(geom), 0.005);
+  return [Number(p[0].toFixed(5)), Number(p[1].toFixed(5))];
+}
 
 // 2018 southkorea-maps 검증된 스키마
 const PROP = {
@@ -28,7 +53,8 @@ for (const f of provFC.features) {
   const code = sidoCodeOf(f.properties[PROP.code]);
   const sido = canonicalSido(f.properties[PROP.name]);
   if (!sido) throw new Error(`Unknown sido: ${f.properties[PROP.name]}`);
-  f.properties = { sidoCode: code, sido };
+  const labelPoint = labelPointOf(f.geometry);
+  f.properties = { sidoCode: code, sido, labelPoint };
   sidoNameByCode.set(code, sido);
 }
 writeFileSync('public/geo/sido.json', JSON.stringify(provFC));
