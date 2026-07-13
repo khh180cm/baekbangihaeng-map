@@ -24,6 +24,7 @@ export interface Restaurant {
   signatureMenu: string | null;
   category: Category;
   image: string | null;    // 대표 이미지 URL (없으면 null → 카테고리 아이콘)
+  images: string[];        // 인라인 갤러리용 이미지들(다이닝코드 image_list)
   episode: Episode;
   links: { naver: string; kakao: string; diningcode?: string };
   confidence: 'high' | 'medium' | 'low';

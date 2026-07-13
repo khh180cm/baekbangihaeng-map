@@ -9,6 +9,7 @@ import type { Restaurant } from '../src/types';
 interface Poi {
   v_rid: string; nm: string; branch: string | null; addr: string; road_addr: string;
   phone: string; category: string; area: string[]; lat: number; lng: number; image: string | null;
+  image_list?: string[];
   score?: number; // 다이닝코드 r_score (랭킹 점수)
 }
 
@@ -59,7 +60,8 @@ const out: Restaurant[] = raw
       menus,
       signatureMenu: menus[0] ?? null,
       category: classify(`${p.category} ${p.nm}`),
-      image: p.image || null,
+      image: p.image || (p.image_list && p.image_list[0]) || null,
+      images: (p.image_list && p.image_list.length ? p.image_list : (p.image ? [p.image] : [])).slice(0, 6),
       episode: { season: null, no: null, airDate: null },
       links: {
         ...buildMapLinks(p.nm, region.sigungu),
