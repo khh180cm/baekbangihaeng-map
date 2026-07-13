@@ -86,6 +86,15 @@ body { margin: 0; }
 .card-body { flex: 1 1 auto; min-width: 0; }
 .card-name { margin: 0 0 4px; font-size: 16px; }
 .card-name .cat { font-size: 12px; color: #b06a2c; font-weight: 500; margin-left: 6px; }
+.region-chip {
+  display: inline-block;
+  margin: 2px 0;
+  font-size: 12px;
+  color: #b06a2c;
+  background: #fbf1e2;
+  border-radius: 6px;
+  padding: 1px 7px;
+}
 .sig { margin: 2px 0; font-size: 14px; }
 .menus { margin: 2px 0; font-size: 13px; color: #5c4f3d; }
 .addr { margin: 2px 0; font-size: 13px; color: #5c4f3d; }

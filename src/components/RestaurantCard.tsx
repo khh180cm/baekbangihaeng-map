@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { Restaurant } from '../types';
 import { categoryIcon } from '../lib/categories';
 
-export function RestaurantCard({ restaurant: r }: { restaurant: Restaurant }) {
+export function RestaurantCard({ restaurant: r, showRegion = false }: { restaurant: Restaurant; showRegion?: boolean }) {
   const [imgError, setImgError] = useState(false);
   const showImg = r.image && !imgError;
 
@@ -17,6 +17,7 @@ export function RestaurantCard({ restaurant: r }: { restaurant: Restaurant }) {
       </div>
       <div className="card-body">
         <h3 className="card-name">{r.name} <span className="cat">{r.category}</span></h3>
+        {showRegion && <p className="region-chip">📍 {r.region.sido} {r.region.sigungu}</p>}
         {r.signatureMenu && <p className="sig">🍽️ 대표메뉴: {r.signatureMenu}</p>}
         {r.menus.length > 0 && <p className="menus">메뉴: {r.menus.join(', ')}</p>}
         <p className="addr">📍 {r.address}</p>

@@ -56,31 +56,37 @@ export function MapNational() {
           );
         })}
       </g>
-      {/* 2) 숫자 라벨 (모든 경계선 위) — 흰색 후광으로 가독성 확보 */}
-      <g pointerEvents="none">
+      {/* 2) 숫자 라벨 (모든 경계선 위) — 클릭 가능, 흰색 후광으로 가독성 확보 */}
+      <g>
         {features.map((f: any) => {
           const sido = f.properties.sido as Sido;
           const count = counts[sido] ?? 0;
           if (count === 0) return null;
           const [cx, cy] = path.centroid(f);
           const [dx, dy] = NUDGE[sido] ?? [0, 0];
+          const x = cx + dx;
+          const y = cy + dy;
           return (
-            <text
-              key={sido}
-              data-testid={`badge-${sido}`}
-              x={cx + dx}
-              y={cy + dy}
-              textAnchor="middle"
-              dominantBaseline="central"
-              fontSize={13}
-              fontWeight={800}
-              fill="#5a2e0e"
-              stroke="#fff8ef"
-              strokeWidth={3.5}
-              style={{ paintOrder: 'stroke', strokeLinejoin: 'round' }}
-            >
-              {count}
-            </text>
+            <g key={sido} style={{ cursor: 'pointer' }} onClick={() => selectSido(sido)}>
+              {/* 숫자를 눌러도 해당 지역이 선택되도록 하는 투명 히트 영역 */}
+              <circle cx={x} cy={y} r={15} fill="#ffffff" fillOpacity={0} pointerEvents="all" />
+              <text
+                data-testid={`badge-${sido}`}
+                x={x}
+                y={y}
+                textAnchor="middle"
+                dominantBaseline="central"
+                fontSize={13}
+                fontWeight={800}
+                fill="#5a2e0e"
+                stroke="#fff8ef"
+                strokeWidth={3.5}
+                pointerEvents="none"
+                style={{ paintOrder: 'stroke', strokeLinejoin: 'round' }}
+              >
+                {count}
+              </text>
+            </g>
           );
         })}
       </g>

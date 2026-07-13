@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { useStore, visibleRestaurants, countBySido } from './store';
+import { useStore, visibleRestaurants, countBySido, searchResults } from './store';
 import type { Restaurant } from './types';
 
 const make = (over: Partial<Restaurant>): Restaurant => ({
@@ -43,5 +43,33 @@ describe('store', () => {
     useStore.getState().backToNational();
     expect(useStore.getState().selectedSido).toBeNull();
     expect(useStore.getState().selectedId).toBeNull();
+  });
+
+  it('countBySido changes with the selected category (drives map counting)', () => {
+    // category ALL: 서울 2, 부산 1
+    expect(countBySido(useStore.getState())).toEqual({ '서울특별시': 2, '부산광역시': 1 });
+    // category 면: only b (서울) is 면
+    useStore.getState().setCategory('면');
+    expect(countBySido(useStore.getState())).toEqual({ '서울특별시': 1 });
+  });
+
+  it('visibleRestaurants applies category but IGNORES the search query (decoupled)', () => {
+    useStore.getState().selectSido('서울특별시');
+    useStore.getState().setQuery('없는식당이름');
+    // 검색어와 무관하게 지역+카테고리 리스트를 반환
+    expect(visibleRestaurants(useStore.getState()).map((r) => r.id)).toEqual(['a', 'b']);
+  });
+
+  it('searchResults is global and ignores category (independent search)', () => {
+    useStore.getState().selectSido('부산광역시');
+    useStore.getState().setCategory('면'); // 카테고리 무관해야 함
+    useStore.getState().setQuery('식당'); // 모든 more의 name='식당'
+    const ids = searchResults(useStore.getState())!.map((r) => r.id).sort();
+    expect(ids).toEqual(['a', 'b', 'c']); // 전국(지역·카테고리 무관)
+  });
+
+  it('searchResults is null when query is empty', () => {
+    useStore.getState().setQuery('');
+    expect(searchResults(useStore.getState())).toBeNull();
   });
 });
