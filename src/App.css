@@ -103,8 +103,13 @@ body { margin: 0; }
 }
 .links a:hover { background: #eef3fc; }
 
-.row { margin-bottom: 10px; cursor: pointer; }
-.row.hovered .card { outline: 2px solid #e53935; }
+.row { margin-bottom: 10px; cursor: pointer; scroll-margin: 12px; }
+.row.hovered .card { outline: 2px solid #f0a58a; }
+.row.selected .card {
+  outline: 2px solid #e53935;
+  box-shadow: 0 0 0 4px rgba(229, 57, 53, 0.15);
+  background: #fff7f5;
+}
 
 .empty { color: #8a7a63; padding: 24px; }
 .loading { color: #8a7a63; padding: 24px; }
