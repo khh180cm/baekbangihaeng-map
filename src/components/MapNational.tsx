@@ -8,6 +8,18 @@ import type { Sido } from '../lib/sido';
 const W = 500;
 const H = 640;
 
+// 수도권 등 라벨이 겹치거나 좁은 지역의 숫자 위치를 px 단위로 미세 조정한다.
+// (viewport 500x640 고정 + 결정적 투영이므로 픽셀 오프셋이 안정적)
+const NUDGE: Partial<Record<Sido, [number, number]>> = {
+  '경기도': [24, -74],
+  '서울특별시': [-4, 2],
+  '인천광역시': [-20, -2],
+  '세종특별자치시': [-12, 4],
+  '대전광역시': [2, 8],
+  '광주광역시': [-2, 2],
+  '충청남도': [-14, 6],
+};
+
 export function MapNational() {
   const { data } = useGeo(asset('geo/sido.json'));
   const selectSido = useStore((s) => s.selectSido);
@@ -23,13 +35,14 @@ export function MapNational() {
 
   return (
     <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="남한 시도 지도" className="map-svg">
-      {features.map((f: any) => {
-        const sido = f.properties.sido as Sido;
-        const [cx, cy] = path.centroid(f);
-        const count = counts[sido] ?? 0;
-        return (
-          <g key={sido}>
+      {/* 1) 지역 경계 (아래) */}
+      <g>
+        {features.map((f: any) => {
+          const sido = f.properties.sido as Sido;
+          const count = counts[sido] ?? 0;
+          return (
             <path
+              key={sido}
               data-testid={`sido-${sido}`}
               d={path(f) ?? undefined}
               fill={count ? '#ffd8b0' : '#eeeeee'}
@@ -38,25 +51,39 @@ export function MapNational() {
               style={{ cursor: 'pointer' }}
               onClick={() => selectSido(sido)}
             >
-              <title>{sido} ({count})</title>
+              <title>{sido} ({count}곳)</title>
             </path>
-            {count > 0 && (
-              <text
-                data-testid={`badge-${sido}`}
-                x={cx}
-                y={cy}
-                textAnchor="middle"
-                fontSize={12}
-                fontWeight={700}
-                fill="#7a3d12"
-                pointerEvents="none"
-              >
-                {count}
-              </text>
-            )}
-          </g>
-        );
-      })}
+          );
+        })}
+      </g>
+      {/* 2) 숫자 라벨 (모든 경계선 위) — 흰색 후광으로 가독성 확보 */}
+      <g pointerEvents="none">
+        {features.map((f: any) => {
+          const sido = f.properties.sido as Sido;
+          const count = counts[sido] ?? 0;
+          if (count === 0) return null;
+          const [cx, cy] = path.centroid(f);
+          const [dx, dy] = NUDGE[sido] ?? [0, 0];
+          return (
+            <text
+              key={sido}
+              data-testid={`badge-${sido}`}
+              x={cx + dx}
+              y={cy + dy}
+              textAnchor="middle"
+              dominantBaseline="central"
+              fontSize={13}
+              fontWeight={800}
+              fill="#5a2e0e"
+              stroke="#fff8ef"
+              strokeWidth={3.5}
+              style={{ paintOrder: 'stroke', strokeLinejoin: 'round' }}
+            >
+              {count}
+            </text>
+          );
+        })}
+      </g>
     </svg>
   );
 }

@@ -9,6 +9,7 @@ import type { Restaurant } from '../src/types';
 interface Poi {
   v_rid: string; nm: string; branch: string | null; addr: string; road_addr: string;
   phone: string; category: string; area: string[]; lat: number; lng: number; image: string | null;
+  score?: number; // 다이닝코드 r_score (랭킹 점수)
 }
 
 // 다이닝코드 category/메뉴 문자열 → 앱 카테고리 분류
@@ -39,6 +40,10 @@ function regionOf(addr: string): Restaurant['region'] {
 }
 
 const raw = JSON.parse(readFileSync('scripts/raw/diningcode.json', 'utf8')) as Poi[];
+
+// 다이닝코드 r_score(랭킹 점수) 내림차순 = 추천순. 앱은 배열 순서를 보존하므로
+// 여기서 정렬하면 각 지역 리스트가 추천순으로 표시된다.
+raw.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
 
 const out: Restaurant[] = raw
   .filter((p) => p.nm && p.lat && p.lng)
