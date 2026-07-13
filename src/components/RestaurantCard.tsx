@@ -29,11 +29,9 @@ export function RestaurantCard({ restaurant: r, showRegion = false }: { restaura
         </p>
         {r.coord === null && <p className="warn">위치 미확인</p>}
         <div className="links">
-          <a href={r.links.naver} target="_blank" rel="noreferrer">네이버 지도</a>
-          <a href={r.links.kakao} target="_blank" rel="noreferrer">카카오맵</a>
-          {r.links.diningcode && (
-            <a href={r.links.diningcode} target="_blank" rel="noreferrer">📷 사진·후기</a>
-          )}
+          <a href={r.links.naver}>네이버 지도</a>
+          <a href={r.links.kakao}>카카오맵</a>
+          {r.links.diningcode && <a href={r.links.diningcode}>📷 사진·후기</a>}
         </div>
       </div>
     </article>
