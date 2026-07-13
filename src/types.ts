@@ -9,7 +9,7 @@ export interface Region {
 }
 
 export interface Episode {
-  season: number;          // 기수
+  season: number | null;   // 기수 (미상이면 null)
   no: number | null;       // 회차
   airDate: string | null;  // ISO yyyy-mm-dd
 }
@@ -23,8 +23,9 @@ export interface Restaurant {
   menus: string[];
   signatureMenu: string | null;
   category: Category;
+  image: string | null;    // 대표 이미지 URL (없으면 null → 카테고리 아이콘)
   episode: Episode;
-  links: { naver: string; kakao: string };
+  links: { naver: string; kakao: string; diningcode?: string };
   confidence: 'high' | 'medium' | 'low';
   sources: string[];
 }

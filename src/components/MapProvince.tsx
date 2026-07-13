@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useStore, visibleRestaurants } from '../store';
 import { useGeo } from '../geo/useGeo';
 import { createProjection, pathFor, projectCoord } from '../geo/projection';
+import { asset } from '../lib/asset';
 
 const W = 640;
 const H = 640;
@@ -12,7 +13,7 @@ interface SidoIndexRow {
 }
 
 function useSidoCode(sido: string | null): string | null {
-  const { data } = useGeo<SidoIndexRow[]>('/geo/sido-index.json');
+  const { data } = useGeo<SidoIndexRow[]>(asset('geo/sido-index.json'));
   if (!sido || !data) return null;
   return data.find((d) => d.sido === sido)?.sidoCode ?? null;
 }
@@ -20,7 +21,7 @@ function useSidoCode(sido: string | null): string | null {
 export function MapProvince() {
   const sido = useStore((s) => s.selectedSido);
   const sidoCode = useSidoCode(sido);
-  const { data: emd } = useGeo(sidoCode ? `/geo/emd/${sidoCode}.json` : '');
+  const { data: emd } = useGeo(sidoCode ? asset(`geo/emd/${sidoCode}.json`) : '');
   const restaurants = useStore(visibleRestaurants);
   const selectRestaurant = useStore((s) => s.selectRestaurant);
   const hoverRestaurant = useStore((s) => s.hoverRestaurant);

@@ -8,7 +8,9 @@ export function Filters() {
   const restaurants = useStore((s) => s.restaurants);
 
   const seasons = useMemo(
-    () => [...new Set(restaurants.map((r) => r.episode.season))].sort((a, b) => a - b),
+    () => [...new Set(restaurants.map((r) => r.episode.season))]
+      .filter((s): s is number => s != null)
+      .sort((a, b) => a - b),
     [restaurants],
   );
 

@@ -2,13 +2,14 @@ import { useMemo } from 'react';
 import { useStore, countBySido } from '../store';
 import { useGeo } from '../geo/useGeo';
 import { createProjection, pathFor } from '../geo/projection';
+import { asset } from '../lib/asset';
 import type { Sido } from '../lib/sido';
 
 const W = 500;
 const H = 640;
 
 export function MapNational() {
-  const { data } = useGeo('/geo/sido.json');
+  const { data } = useGeo(asset('geo/sido.json'));
   const selectSido = useStore((s) => s.selectSido);
   const counts = useStore(countBySido);
 

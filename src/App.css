@@ -71,16 +71,18 @@ body { margin: 0; }
   background: #fff;
 }
 .card-thumb {
-  font-size: 34px;
-  width: 56px;
-  height: 56px;
+  width: 64px;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #fbf1e2;
   border-radius: 10px;
   flex: 0 0 auto;
+  overflow: hidden;
 }
+.thumb-icon { font-size: 34px; }
+.thumb-img { width: 100%; height: 100%; object-fit: cover; }
 .card-body { flex: 1 1 auto; min-width: 0; }
 .card-name { margin: 0 0 4px; font-size: 16px; }
 .card-name .cat { font-size: 12px; color: #b06a2c; font-weight: 500; margin-left: 6px; }
@@ -106,3 +108,11 @@ body { margin: 0; }
 
 .empty { color: #8a7a63; padding: 24px; }
 .loading { color: #8a7a63; padding: 24px; }
+
+.app-footer {
+  padding: 16px 24px 28px;
+  border-top: 1px solid #f0e2cf;
+  color: #8a7a63;
+  font-size: 12px;
+}
+.app-footer a { color: #b06a2c; }

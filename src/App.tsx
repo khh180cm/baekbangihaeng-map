@@ -5,13 +5,14 @@ import { MapNational } from './components/MapNational';
 import { MapProvince } from './components/MapProvince';
 import { RestaurantPanel } from './components/RestaurantPanel';
 import { Filters } from './components/Filters';
+import { asset } from './lib/asset';
 import type { Restaurant } from './types';
 import './App.css';
 
 export function App() {
   const selectedSido = useStore((s) => s.selectedSido);
   const setRestaurants = useStore((s) => s.setRestaurants);
-  const { data } = useGeo<Restaurant[]>('/data/restaurants.json');
+  const { data } = useGeo<Restaurant[]>(asset('data/restaurants.json'));
 
   useEffect(() => {
     if (data) setRestaurants(data);
@@ -32,6 +33,10 @@ export function App() {
           <RestaurantPanel />
         </aside>
       </div>
+      <footer className="app-footer">
+        데이터 출처: <a href="https://www.diningcode.com" target="_blank" rel="noreferrer">다이닝코드</a>
+        {' · '}프로그램: TV조선 「식객 허영만의 백반기행」 · 팬 제작 비상업 프로젝트
+      </footer>
     </div>
   );
 }
