@@ -1,0 +1,44 @@
+{
+  "name": "baekbangihaeng-map",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build:geo": "tsx scripts/build-geo.ts",
+    "assign:coords": "tsx scripts/assign-coords.ts src/data/restaurants.seed.json public/data/restaurants.json",
+    "validate:data": "tsx scripts/validate-data.ts public/data/restaurants.json",
+    "data": "npm run build:geo && npm run assign:coords && npm run validate:data",
+    "prebuild": "npm run data",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "playwright test"
+  },
+  "dependencies": {
+    "d3-array": "^3.2.4",
+    "d3-geo": "^3.1.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "topojson-client": "^3.1.0",
+    "zustand": "^4.5.5"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/react": "^16.0.1",
+    "@types/d3-array": "^3.2.1",
+    "@types/d3-geo": "^3.1.0",
+    "@types/node": "^20.19.43",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.0",
+    "@types/topojson-client": "^3.1.5",
+    "@vitejs/plugin-react": "^4.3.2",
+    "jsdom": "^25.0.1",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2",
+    "vite": "^5.4.8",
+    "vitest": "^2.1.2"
+  }
+}

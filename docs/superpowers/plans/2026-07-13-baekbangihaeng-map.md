@@ -693,15 +693,17 @@ git commit -m "feat: restaurant filter by category/season/query"
   - `public/geo/sigungu/<sidoCode>.json`: props `{ sidoCode; sigunguCode; sido; sigungu }`
   - `public/geo/emd/<sidoCode>.json`: props `{ sidoCode; sigunguCode; emdCode; sido; sigungu; emd }`
   - `public/geo/emd-centroids.json`: `Array<{ sido: Sido; sigungu: string; emd: string; lng: number; lat: number }>`
+  - `public/geo/sigungu-centroids.json`: `Array<{ sido: Sido; sigungu: string; lng: number; lat: number }>` (좌표 fallback용, 250개)
   - `public/geo/sido-index.json`: `Array<{ sidoCode: string; sido: Sido }>` (17개)
 
-- [ ] **Step 1: 원본 경계 데이터 확보**
+> **확인된 원본 스키마(2018 southkorea-maps, 사전 검증됨)**: provinces object=`skorea_provinces_2018_geo`(code 2자리, 17개), municipalities=`skorea_municipalities_2018_geo`(code 5자리, 250개), submunicipalities=`skorea_submunicipalities_2018_geo`(code 7자리 **행정동**, 3504개). properties 키는 모두 `code`,`name`. 코드 계층: sido=`code.slice(0,2)`, sigungu=`code.slice(0,5)`. 시+구 명칭은 공백 없음(예: `수원시팔달구`, `전주시완산구`). submunicipality는 **행정동**이라 법정동 주소(예: 관철동)와 이름이 다를 수 있어 시군구 fallback이 필요하다.
 
-`southkorea/southkorea-maps` (통계청 유래) TopoJSON을 `scripts/raw/`에 저장한다. 저장소 레이아웃이 바뀌었을 수 있으니 다운로드 후 파일을 열어 **object 이름과 properties 키(예: `code`, `name`)를 반드시 확인**하고 Step 3의 매핑을 조정한다.
+- [ ] **Step 1: 원본 경계 데이터 확보 (URL·스키마 사전 검증 완료)**
+
+`southkorea/southkorea-maps` (통계청 유래, 2018) TopoJSON을 `scripts/raw/`에 저장한다. 아래 URL과 object/properties 스키마는 이미 검증되었으므로 Step 3의 `PROP` 상수를 그대로 쓴다.
 
 ```bash
 mkdir -p scripts/raw public/geo/sigungu public/geo/emd
-# 예시 URL (레포 확인 후 정확한 경로로 조정):
 curl -L -o scripts/raw/provinces.topojson.json \
   https://raw.githubusercontent.com/southkorea/southkorea-maps/master/kostat/2018/json/skorea-provinces-2018-topo-simple.json
 curl -L -o scripts/raw/municipalities.topojson.json \
@@ -710,7 +712,7 @@ curl -L -o scripts/raw/submunicipalities.topojson.json \
   https://raw.githubusercontent.com/southkorea/southkorea-maps/master/kostat/2018/json/skorea-submunicipalities-2018-topo-simple.json
 ```
 
-각 파일을 열어: TopoJSON `objects`의 키 이름과, 대표 geometry의 `properties`에서 (a) 행정구역 코드 필드명, (b) 한글 명칭 필드명을 확인해 메모한다. 코드 체계는 계층적(시도=앞 2자리, 시군구=앞 5자리)임을 활용한다.
+다운로드 후 각 파일 크기가 0이 아닌지만 확인한다(provinces ~210KB, municipalities ~540KB, submunicipalities ~1.6MB). 스키마는 검증됨: objects=`skorea_provinces_2018_geo`/`skorea_municipalities_2018_geo`/`skorea_submunicipalities_2018_geo`, properties 키 `code`·`name`.
 
 - [ ] **Step 2: 테스트 먼저 작성**
 
@@ -757,12 +759,24 @@ describe('build-geo output', () => {
       expect(existsSync(`public/geo/emd/${sidoCode}.json`)).toBe(true);
     }
   });
+
+  it('emits ~250 sigungu centroids within Korea bbox', () => {
+    const rows = read('public/geo/sigungu-centroids.json') as Array<{ sido: string; sigungu: string; lng: number; lat: number }>;
+    expect(rows.length).toBeGreaterThanOrEqual(240);
+    for (const r of rows) {
+      expect(r.sido && r.sigungu).toBeTruthy();
+      expect(r.lng).toBeGreaterThan(124);
+      expect(r.lng).toBeLessThan(132);
+      expect(r.lat).toBeGreaterThan(33);
+      expect(r.lat).toBeLessThan(39.5);
+    }
+  });
 });
 ```
 
 - [ ] **Step 3: `build-geo.ts` 구현**
 
-> 아래 `PROP` 상수(원본 properties 키/‑object 이름)는 Step 1에서 확인한 실제 값으로 맞춘다.
+> 아래 `PROP` 상수는 2018 데이터셋에 대해 검증된 값이다(그대로 사용).
 
 ```ts
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
@@ -770,7 +784,7 @@ import { feature } from 'topojson-client';
 import { geoCentroid } from 'd3-geo';
 import { canonicalSido, type Sido } from '../src/lib/sido';
 
-// Step 1에서 확인한 실제 키/오브젝트명으로 조정할 것
+// 2018 southkorea-maps 검증된 스키마
 const PROP = {
   provincesObject: 'skorea_provinces_2018_geo',
   municipalitiesObject: 'skorea_municipalities_2018_geo',
@@ -804,16 +818,19 @@ writeFileSync(
   JSON.stringify([...sidoNameByCode].map(([sidoCode, sido]) => ({ sidoCode, sido }))),
 );
 
-// --- 시군구 ---
+// --- 시군구 (+ centroid fallback) ---
 const muniFC = toFC(readTopo('scripts/raw/municipalities.topojson.json'), PROP.municipalitiesObject);
 const sigunguNameByCode = new Map<string, string>();
 const sigunguBySido = new Map<string, any[]>();
+const sigunguCentroids: Array<{ sido: Sido; sigungu: string; lng: number; lat: number }> = [];
 for (const f of muniFC.features) {
   const raw = String(f.properties[PROP.code]);
   const sidoCode = sidoCodeOf(raw);
   const sigunguCode = sigunguCodeOf(raw);
   const sido = sidoNameByCode.get(sidoCode)!;
   const sigungu = f.properties[PROP.name];
+  const [lng, lat] = geoCentroid(f);
+  sigunguCentroids.push({ sido, sigungu, lng, lat });
   sigunguNameByCode.set(sigunguCode, sigungu);
   f.properties = { sidoCode, sigunguCode, sido, sigungu };
   if (!sigunguBySido.has(sidoCode)) sigunguBySido.set(sidoCode, []);
@@ -822,6 +839,7 @@ for (const f of muniFC.features) {
 for (const [sidoCode, features] of sigunguBySido) {
   writeFileSync(`public/geo/sigungu/${sidoCode}.json`, JSON.stringify({ type: 'FeatureCollection', features }));
 }
+writeFileSync('public/geo/sigungu-centroids.json', JSON.stringify(sigunguCentroids));
 
 // --- 읍면동 + centroid ---
 const emdFC = toFC(readTopo('scripts/raw/submunicipalities.topojson.json'), PROP.submunicipalitiesObject);
@@ -845,7 +863,7 @@ for (const [sidoCode, features] of emdBySido) {
 }
 writeFileSync('public/geo/emd-centroids.json', JSON.stringify(centroids));
 
-console.log(`geo build done: 17 sido, ${centroids.length} emd centroids`);
+console.log(`geo build done: 17 sido, ${sigunguCentroids.length} sigungu, ${centroids.length} emd centroids`);
 ```
 
 - [ ] **Step 4: 스크립트 실행 및 테스트 통과 확인**
@@ -874,10 +892,14 @@ git commit -m "feat: build-geo script -> sido/sigungu/emd GeoJSON + emd centroid
 - Test: `src/geo/centroid.test.ts`, `scripts/assign-coords.test.ts`
 
 **Interfaces:**
-- Consumes: `parseAddress` (Task 4), `buildMapLinks` (Task 5), `Restaurant` (Task 2), `emd-centroids.json` (Task 7)
+- Consumes: `parseAddress` (Task 4), `buildMapLinks` (Task 5), `Restaurant` (Task 2), `emd-centroids.json`·`sigungu-centroids.json` (Task 7)
 - Produces:
-  - `centroid.ts`: `jitter(base: Coord, key: string): Coord` (결정적), `matchCentroid(index: CentroidRow[], p: ParsedAddress): Coord | null`, `type CentroidRow = { sido: string; sigungu: string; emd: string; lng: number; lat: number }`
-  - `scripts/assign-coords.ts`: CLI `tsx scripts/assign-coords.ts <in.json> <out.json>` — 각 레코드에 `coord`(매칭 실패 시 null)와 `links` 채워 저장
+  - `centroid.ts`:
+    - `type CentroidRow = { sido: string; sigungu: string; emd: string; lng: number; lat: number }`
+    - `type SigunguRow = { sido: string; sigungu: string; lng: number; lat: number }`
+    - `jitter(base: Coord, key: string): Coord` (결정적)
+    - `resolveCentroid(emdIndex: CentroidRow[], sigunguIndex: SigunguRow[], p: { sido: string; sigungu: string; emd: string }): { coord: Coord; level: 'emd' | 'sigungu' } | null` — 행정동(emd) 이름 우선 매칭, 실패 시 시군구 중심점으로 fallback, 둘 다 실패 시 null. 시군구 비교는 공백 무시(`수원시 팔달구` == `수원시팔달구`).
+  - `scripts/assign-coords.ts`: CLI `tsx scripts/assign-coords.ts <in.json> <out.json>` — 각 레코드에 `coord`(jitter 적용, 매칭 실패 시 null), `links`, `confidence`(emd→원값 유지, sigungu→`medium`, 실패→`low`) 채워 저장
 
 - [ ] **Step 1: centroid 테스트 작성**
 

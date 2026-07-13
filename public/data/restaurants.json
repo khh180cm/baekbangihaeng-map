@@ -1,0 +1,467 @@
+[
+  {
+    "id": "seoul-junggu-hadong",
+    "name": "하동관",
+    "region": {
+      "sido": "서울특별시",
+      "sigungu": "중구",
+      "emd": "명동"
+    },
+    "address": "서울특별시 중구 명동 10-4",
+    "coord": {
+      "lat": 37.565049870636855,
+      "lng": 126.9826851415789
+    },
+    "menus": [
+      "곰탕",
+      "수육"
+    ],
+    "signatureMenu": "곰탕",
+    "category": "한식",
+    "episode": {
+      "season": 3,
+      "no": null,
+      "airDate": null
+    },
+    "links": {
+      "naver": "https://map.naver.com/v5/search/%ED%95%98%EB%8F%99%EA%B4%80%20%EC%A4%91%EA%B5%AC",
+      "kakao": "https://map.kakao.com/link/search/%ED%95%98%EB%8F%99%EA%B4%80%20%EC%A4%91%EA%B5%AC"
+    },
+    "confidence": "medium",
+    "sources": []
+  },
+  {
+    "id": "seoul-junggu-woraeok",
+    "name": "우래옥",
+    "region": {
+      "sido": "서울특별시",
+      "sigungu": "중구",
+      "emd": "주교동"
+    },
+    "address": "서울특별시 중구 주교동 118-1",
+    "coord": {
+      "lat": 37.557493991882225,
+      "lng": 126.9990525469593
+    },
+    "menus": [
+      "평양냉면",
+      "불고기"
+    ],
+    "signatureMenu": "평양냉면",
+    "category": "면",
+    "episode": {
+      "season": 5,
+      "no": null,
+      "airDate": null
+    },
+    "links": {
+      "naver": "https://map.naver.com/v5/search/%EC%9A%B0%EB%9E%98%EC%98%A5%20%EC%A4%91%EA%B5%AC",
+      "kakao": "https://map.kakao.com/link/search/%EC%9A%B0%EB%9E%98%EC%98%A5%20%EC%A4%91%EA%B5%AC"
+    },
+    "confidence": "medium",
+    "sources": []
+  },
+  {
+    "id": "seoul-jongno-yeolchajip",
+    "name": "열차집",
+    "region": {
+      "sido": "서울특별시",
+      "sigungu": "종로구",
+      "emd": "청진동"
+    },
+    "address": "서울특별시 종로구 청진동 89",
+    "coord": {
+      "lat": 37.5948141620684,
+      "lng": 126.98036240997756
+    },
+    "menus": [
+      "빈대떡",
+      "굴전"
+    ],
+    "signatureMenu": "빈대떡",
+    "category": "한식",
+    "episode": {
+      "season": 7,
+      "no": null,
+      "airDate": null
+    },
+    "links": {
+      "naver": "https://map.naver.com/v5/search/%EC%97%B4%EC%B0%A8%EC%A7%91%20%EC%A2%85%EB%A1%9C%EA%B5%AC",
+      "kakao": "https://map.kakao.com/link/search/%EC%97%B4%EC%B0%A8%EC%A7%91%20%EC%A2%85%EB%A1%9C%EA%B5%AC"
+    },
+    "confidence": "medium",
+    "sources": []
+  },
+  {
+    "id": "busan-junggu-nampo-gukbap",
+    "name": "남포동 돼지국밥",
+    "region": {
+      "sido": "부산광역시",
+      "sigungu": "중구",
+      "emd": "남포동"
+    },
+    "address": "부산광역시 중구 남포동 2가 15",
+    "coord": {
+      "lat": 35.100250101238075,
+      "lng": 129.02855750413318
+    },
+    "menus": [
+      "돼지국밥",
+      "수육백반"
+    ],
+    "signatureMenu": "돼지국밥",
+    "category": "한식",
+    "episode": {
+      "season": 4,
+      "no": null,
+      "airDate": null
+    },
+    "links": {
+      "naver": "https://map.naver.com/v5/search/%EB%82%A8%ED%8F%AC%EB%8F%99%20%EB%8F%BC%EC%A7%80%EA%B5%AD%EB%B0%A5%20%EC%A4%91%EA%B5%AC",
+      "kakao": "https://map.kakao.com/link/search/%EB%82%A8%ED%8F%AC%EB%8F%99%20%EB%8F%BC%EC%A7%80%EA%B5%AD%EB%B0%A5%20%EC%A4%91%EA%B5%AC"
+    },
+    "confidence": "medium",
+    "sources": []
+  },
+  {
+    "id": "busan-gijang-daebyeon",
+    "name": "기장 대변항 멸치집",
+    "region": {
+      "sido": "부산광역시",
+      "sigungu": "기장군",
+      "emd": "기장읍"
+    },
+    "address": "부산광역시 기장군 기장읍 대변리 12",
+    "coord": {
+      "lat": 35.22799642455781,
+      "lng": 129.20788003129744
+    },
+    "menus": [
+      "멸치회무침",
+      "멸치찌개"
+    ],
+    "signatureMenu": "멸치회무침",
+    "category": "해산물",
+    "episode": {
+      "season": 8,
+      "no": null,
+      "airDate": null
+    },
+    "links": {
+      "naver": "https://map.naver.com/v5/search/%EA%B8%B0%EC%9E%A5%20%EB%8C%80%EB%B3%80%ED%95%AD%20%EB%A9%B8%EC%B9%98%EC%A7%91%20%EA%B8%B0%EC%9E%A5%EA%B5%B0",
+      "kakao": "https://map.kakao.com/link/search/%EA%B8%B0%EC%9E%A5%20%EB%8C%80%EB%B3%80%ED%95%AD%20%EB%A9%B8%EC%B9%98%EC%A7%91%20%EA%B8%B0%EC%9E%A5%EA%B5%B0"
+    },
+    "confidence": "medium",
+    "sources": []
+  },
+  {
+    "id": "gangneung-chodang-sundubu",
+    "name": "초당할머니순두부",
+    "region": {
+      "sido": "강원특별자치도",
+      "sigungu": "강릉시",
+      "emd": "초당동"
+    },
+    "address": "강원특별자치도 강릉시 초당동 291",
+    "coord": {
+      "lat": 37.789368038941795,
+      "lng": 128.91308507906345
+    },
+    "menus": [
+      "초당순두부",
+      "순두부전골"
+    ],
+    "signatureMenu": "초당순두부",
+    "category": "한식",
+    "episode": {
+      "season": 6,
+      "no": null,
+      "airDate": null
+    },
+    "links": {
+      "naver": "https://map.naver.com/v5/search/%EC%B4%88%EB%8B%B9%ED%95%A0%EB%A8%B8%EB%8B%88%EC%88%9C%EB%91%90%EB%B6%80%20%EA%B0%95%EB%A6%89%EC%8B%9C",
+      "kakao": "https://map.kakao.com/link/search/%EC%B4%88%EB%8B%B9%ED%95%A0%EB%A8%B8%EB%8B%88%EC%88%9C%EB%91%90%EB%B6%80%20%EA%B0%95%EB%A6%89%EC%8B%9C"
+    },
+    "confidence": "medium",
+    "sources": []
+  },
+  {
+    "id": "gangneung-jumunjin-mulhoe",
+    "name": "주문진 물회식당",
+    "region": {
+      "sido": "강원특별자치도",
+      "sigungu": "강릉시",
+      "emd": "주문진읍"
+    },
+    "address": "강원특별자치도 강릉시 주문진읍 주문리 312",
+    "coord": {
+      "lat": 37.88811871118301,
+      "lng": 128.76453351653103
+    },
+    "menus": [
+      "물회",
+      "가자미회"
+    ],
+    "signatureMenu": "물회",
+    "category": "해산물",
+    "episode": {
+      "season": 6,
+      "no": null,
+      "airDate": null
+    },
+    "links": {
+      "naver": "https://map.naver.com/v5/search/%EC%A3%BC%EB%AC%B8%EC%A7%84%20%EB%AC%BC%ED%9A%8C%EC%8B%9D%EB%8B%B9%20%EA%B0%95%EB%A6%89%EC%8B%9C",
+      "kakao": "https://map.kakao.com/link/search/%EC%A3%BC%EB%AC%B8%EC%A7%84%20%EB%AC%BC%ED%9A%8C%EC%8B%9D%EB%8B%B9%20%EA%B0%95%EB%A6%89%EC%8B%9C"
+    },
+    "confidence": "medium",
+    "sources": []
+  },
+  {
+    "id": "jeonju-wansan-bibimbap",
+    "name": "전주 한일관 비빔밥",
+    "region": {
+      "sido": "전북특별자치도",
+      "sigungu": "전주시 완산구",
+      "emd": "풍남동"
+    },
+    "address": "전북특별자치도 전주시 완산구 풍남동 3가 22",
+    "coord": {
+      "lat": 35.81316904935673,
+      "lng": 127.15650708477503
+    },
+    "menus": [
+      "전주비빔밥",
+      "육회비빔밥"
+    ],
+    "signatureMenu": "전주비빔밥",
+    "category": "한식",
+    "episode": {
+      "season": 2,
+      "no": null,
+      "airDate": null
+    },
+    "links": {
+      "naver": "https://map.naver.com/v5/search/%EC%A0%84%EC%A3%BC%20%ED%95%9C%EC%9D%BC%EA%B4%80%20%EB%B9%84%EB%B9%94%EB%B0%A5%20%EC%A0%84%EC%A3%BC%EC%8B%9C%20%EC%99%84%EC%82%B0%EA%B5%AC",
+      "kakao": "https://map.kakao.com/link/search/%EC%A0%84%EC%A3%BC%20%ED%95%9C%EC%9D%BC%EA%B4%80%20%EB%B9%84%EB%B9%94%EB%B0%A5%20%EC%A0%84%EC%A3%BC%EC%8B%9C%20%EC%99%84%EC%82%B0%EA%B5%AC"
+    },
+    "confidence": "medium",
+    "sources": []
+  },
+  {
+    "id": "jeonju-wansan-kongnamul",
+    "name": "삼백집 콩나물국밥",
+    "region": {
+      "sido": "전북특별자치도",
+      "sigungu": "전주시 완산구",
+      "emd": "고사동"
+    },
+    "address": "전북특별자치도 전주시 완산구 고사동 40",
+    "coord": {
+      "lat": 35.7958285358432,
+      "lng": 127.11775338172767
+    },
+    "menus": [
+      "콩나물국밥",
+      "모주"
+    ],
+    "signatureMenu": "콩나물국밥",
+    "category": "한식",
+    "episode": {
+      "season": 2,
+      "no": null,
+      "airDate": null
+    },
+    "links": {
+      "naver": "https://map.naver.com/v5/search/%EC%82%BC%EB%B0%B1%EC%A7%91%20%EC%BD%A9%EB%82%98%EB%AC%BC%EA%B5%AD%EB%B0%A5%20%EC%A0%84%EC%A3%BC%EC%8B%9C%20%EC%99%84%EC%82%B0%EA%B5%AC",
+      "kakao": "https://map.kakao.com/link/search/%EC%82%BC%EB%B0%B1%EC%A7%91%20%EC%BD%A9%EB%82%98%EB%AC%BC%EA%B5%AD%EB%B0%A5%20%EC%A0%84%EC%A3%BC%EC%8B%9C%20%EC%99%84%EC%82%B0%EA%B5%AC"
+    },
+    "confidence": "medium",
+    "sources": []
+  },
+  {
+    "id": "suwon-paldal-galbi",
+    "name": "수원 화춘옥 왕갈비",
+    "region": {
+      "sido": "경기도",
+      "sigungu": "수원시 팔달구",
+      "emd": "우만동"
+    },
+    "address": "경기도 수원시 팔달구 우만동 251",
+    "coord": {
+      "lat": 37.27486397120145,
+      "lng": 127.01508402270677
+    },
+    "menus": [
+      "수원왕갈비",
+      "갈비탕"
+    ],
+    "signatureMenu": "수원왕갈비",
+    "category": "고기",
+    "episode": {
+      "season": 9,
+      "no": null,
+      "airDate": null
+    },
+    "links": {
+      "naver": "https://map.naver.com/v5/search/%EC%88%98%EC%9B%90%20%ED%99%94%EC%B6%98%EC%98%A5%20%EC%99%95%EA%B0%88%EB%B9%84%20%EC%88%98%EC%9B%90%EC%8B%9C%20%ED%8C%94%EB%8B%AC%EA%B5%AC",
+      "kakao": "https://map.kakao.com/link/search/%EC%88%98%EC%9B%90%20%ED%99%94%EC%B6%98%EC%98%A5%20%EC%99%95%EA%B0%88%EB%B9%84%20%EC%88%98%EC%9B%90%EC%8B%9C%20%ED%8C%94%EB%8B%AC%EA%B5%AC"
+    },
+    "confidence": "medium",
+    "sources": []
+  },
+  {
+    "id": "daegu-junggu-tarogukbap",
+    "name": "대구 따로국밥집",
+    "region": {
+      "sido": "대구광역시",
+      "sigungu": "중구",
+      "emd": "동인동"
+    },
+    "address": "대구광역시 중구 동인동 1가 3",
+    "coord": {
+      "lat": 35.87026964195477,
+      "lng": 128.61060350604527
+    },
+    "menus": [
+      "따로국밥",
+      "육개장"
+    ],
+    "signatureMenu": "따로국밥",
+    "category": "한식",
+    "episode": {
+      "season": 10,
+      "no": null,
+      "airDate": null
+    },
+    "links": {
+      "naver": "https://map.naver.com/v5/search/%EB%8C%80%EA%B5%AC%20%EB%94%B0%EB%A1%9C%EA%B5%AD%EB%B0%A5%EC%A7%91%20%EC%A4%91%EA%B5%AC",
+      "kakao": "https://map.kakao.com/link/search/%EB%8C%80%EA%B5%AC%20%EB%94%B0%EB%A1%9C%EA%B5%AD%EB%B0%A5%EC%A7%91%20%EC%A4%91%EA%B5%AC"
+    },
+    "confidence": "medium",
+    "sources": []
+  },
+  {
+    "id": "daegu-suseong-makchang",
+    "name": "수성구 막창골목",
+    "region": {
+      "sido": "대구광역시",
+      "sigungu": "수성구",
+      "emd": "두산동"
+    },
+    "address": "대구광역시 수성구 두산동 162",
+    "coord": {
+      "lat": 35.8267433329395,
+      "lng": 128.62358034417755
+    },
+    "menus": [
+      "돼지막창",
+      "곱창"
+    ],
+    "signatureMenu": "돼지막창",
+    "category": "고기",
+    "episode": {
+      "season": 10,
+      "no": null,
+      "airDate": null
+    },
+    "links": {
+      "naver": "https://map.naver.com/v5/search/%EC%88%98%EC%84%B1%EA%B5%AC%20%EB%A7%89%EC%B0%BD%EA%B3%A8%EB%AA%A9%20%EC%88%98%EC%84%B1%EA%B5%AC",
+      "kakao": "https://map.kakao.com/link/search/%EC%88%98%EC%84%B1%EA%B5%AC%20%EB%A7%89%EC%B0%BD%EA%B3%A8%EB%AA%A9%20%EC%88%98%EC%84%B1%EA%B5%AC"
+    },
+    "confidence": "medium",
+    "sources": []
+  },
+  {
+    "id": "jeju-jejusi-gogiguksu",
+    "name": "제주 고기국수집",
+    "region": {
+      "sido": "제주특별자치도",
+      "sigungu": "제주시",
+      "emd": "일도이동"
+    },
+    "address": "제주특별자치도 제주시 일도이동 1024",
+    "coord": {
+      "lat": 33.43937925429585,
+      "lng": 126.53010277547114
+    },
+    "menus": [
+      "고기국수",
+      "비빔국수"
+    ],
+    "signatureMenu": "고기국수",
+    "category": "면",
+    "episode": {
+      "season": 11,
+      "no": null,
+      "airDate": null
+    },
+    "links": {
+      "naver": "https://map.naver.com/v5/search/%EC%A0%9C%EC%A3%BC%20%EA%B3%A0%EA%B8%B0%EA%B5%AD%EC%88%98%EC%A7%91%20%EC%A0%9C%EC%A3%BC%EC%8B%9C",
+      "kakao": "https://map.kakao.com/link/search/%EC%A0%9C%EC%A3%BC%20%EA%B3%A0%EA%B8%B0%EA%B5%AD%EC%88%98%EC%A7%91%20%EC%A0%9C%EC%A3%BC%EC%8B%9C"
+    },
+    "confidence": "medium",
+    "sources": []
+  },
+  {
+    "id": "jeju-seogwipo-galchi",
+    "name": "서귀포 갈치조림집",
+    "region": {
+      "sido": "제주특별자치도",
+      "sigungu": "서귀포시",
+      "emd": "서귀동"
+    },
+    "address": "제주특별자치도 서귀포시 서귀동 320",
+    "coord": {
+      "lat": 33.32346791282644,
+      "lng": 126.57983631993652
+    },
+    "menus": [
+      "갈치조림",
+      "갈치구이"
+    ],
+    "signatureMenu": "갈치조림",
+    "category": "해산물",
+    "episode": {
+      "season": 11,
+      "no": null,
+      "airDate": null
+    },
+    "links": {
+      "naver": "https://map.naver.com/v5/search/%EC%84%9C%EA%B7%80%ED%8F%AC%20%EA%B0%88%EC%B9%98%EC%A1%B0%EB%A6%BC%EC%A7%91%20%EC%84%9C%EA%B7%80%ED%8F%AC%EC%8B%9C",
+      "kakao": "https://map.kakao.com/link/search/%EC%84%9C%EA%B7%80%ED%8F%AC%20%EA%B0%88%EC%B9%98%EC%A1%B0%EB%A6%BC%EC%A7%91%20%EC%84%9C%EA%B7%80%ED%8F%AC%EC%8B%9C"
+    },
+    "confidence": "medium",
+    "sources": []
+  },
+  {
+    "id": "incheon-junggu-jjajang",
+    "name": "인천 차이나타운 짜장면집",
+    "region": {
+      "sido": "인천광역시",
+      "sigungu": "중구",
+      "emd": "선린동"
+    },
+    "address": "인천광역시 중구 선린동 38",
+    "coord": {
+      "lat": 37.470190310513814,
+      "lng": 126.48546240900195
+    },
+    "menus": [
+      "짜장면",
+      "짬뽕"
+    ],
+    "signatureMenu": "짜장면",
+    "category": "중식",
+    "episode": {
+      "season": 1,
+      "no": null,
+      "airDate": null
+    },
+    "links": {
+      "naver": "https://map.naver.com/v5/search/%EC%9D%B8%EC%B2%9C%20%EC%B0%A8%EC%9D%B4%EB%82%98%ED%83%80%EC%9A%B4%20%EC%A7%9C%EC%9E%A5%EB%A9%B4%EC%A7%91%20%EC%A4%91%EA%B5%AC",
+      "kakao": "https://map.kakao.com/link/search/%EC%9D%B8%EC%B2%9C%20%EC%B0%A8%EC%9D%B4%EB%82%98%ED%83%80%EC%9A%B4%20%EC%A7%9C%EC%9E%A5%EB%A9%B4%EC%A7%91%20%EC%A4%91%EA%B5%AC"
+    },
+    "confidence": "medium",
+    "sources": []
+  }
+]

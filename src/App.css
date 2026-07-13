@@ -1,0 +1,108 @@
+* { box-sizing: border-box; }
+body { margin: 0; }
+
+.app {
+  font-family: system-ui, -apple-system, 'Apple SD Gothic Neo', sans-serif;
+  color: #2b2118;
+  background: #fffaf3;
+  min-height: 100vh;
+}
+
+.app-header {
+  padding: 20px 24px 8px;
+  border-bottom: 1px solid #f0e2cf;
+}
+.app-header h1 { margin: 0; font-size: 24px; }
+.app-header .sub { margin: 4px 0 12px; color: #8a7a63; font-size: 14px; }
+
+.layout {
+  display: flex;
+  gap: 20px;
+  padding: 16px 24px 32px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.map { flex: 0 0 auto; }
+.map-svg {
+  width: min(46vw, 520px);
+  height: auto;
+  background: #fdf6ea;
+  border: 1px solid #f0e2cf;
+  border-radius: 12px;
+}
+
+.side {
+  flex: 1 1 380px;
+  max-height: 84vh;
+  overflow: auto;
+  min-width: 320px;
+}
+
+.province-title { margin: 8px 0; font-size: 20px; }
+.back-btn {
+  background: #fff;
+  border: 1px solid #d9c4a3;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.back-btn:hover { background: #f6ead6; }
+
+.filters { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+.filter-input, .filters select {
+  padding: 8px 10px;
+  border: 1px solid #d9c4a3;
+  border-radius: 8px;
+  font-size: 14px;
+  background: #fff;
+}
+.filter-input { flex: 1 1 160px; }
+
+.panel-count { color: #8a7a63; font-size: 13px; margin: 0 0 10px; }
+
+.card {
+  display: flex;
+  gap: 12px;
+  border: 1px solid #efe2ce;
+  border-radius: 12px;
+  padding: 12px;
+  background: #fff;
+}
+.card-thumb {
+  font-size: 34px;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fbf1e2;
+  border-radius: 10px;
+  flex: 0 0 auto;
+}
+.card-body { flex: 1 1 auto; min-width: 0; }
+.card-name { margin: 0 0 4px; font-size: 16px; }
+.card-name .cat { font-size: 12px; color: #b06a2c; font-weight: 500; margin-left: 6px; }
+.sig { margin: 2px 0; font-size: 14px; }
+.menus { margin: 2px 0; font-size: 13px; color: #5c4f3d; }
+.addr { margin: 2px 0; font-size: 13px; color: #5c4f3d; }
+.epi { margin: 4px 0 2px; font-size: 12px; color: #8a7a63; }
+.warn { margin: 2px 0; font-size: 12px; color: #b26a00; }
+
+.links { margin-top: 6px; display: flex; gap: 10px; flex-wrap: wrap; }
+.links a {
+  font-size: 13px;
+  color: #1a73e8;
+  text-decoration: none;
+  border: 1px solid #dce6f5;
+  border-radius: 6px;
+  padding: 3px 8px;
+}
+.links a:hover { background: #eef3fc; }
+
+.row { margin-bottom: 10px; cursor: pointer; }
+.row.hovered .card { outline: 2px solid #e53935; }
+
+.empty { color: #8a7a63; padding: 24px; }
+.loading { color: #8a7a63; padding: 24px; }
