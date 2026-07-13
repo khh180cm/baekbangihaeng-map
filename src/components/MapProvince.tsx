@@ -103,7 +103,7 @@ export function MapProvince() {
               role="img"
               aria-label={`${sido} 지도`}
               className="map-svg"
-              style={{ touchAction: pz.isZoomed ? 'none' : 'pan-y' }}
+              style={{ touchAction: 'none' }}
               {...pz.bind}
             >
               <g transform={pz.transformStr}>
