@@ -17,6 +17,8 @@ interface State {
   setFilter: (f: FilterState) => void;
   setCategory: (c: FilterState['category']) => void;
   setQuery: (q: string) => void;
+  /** 히스토리(뒤로가기) 복원용: 뷰 상태를 한 번에 설정 */
+  setView: (sido: Sido | null, id: string | null, query?: string) => void;
 }
 
 export const useStore = create<State>((set) => ({
@@ -33,6 +35,13 @@ export const useStore = create<State>((set) => ({
   setFilter: (filter) => set({ filter }),
   setCategory: (category) => set((s) => ({ filter: { ...s.filter, category } })),
   setQuery: (query) => set((s) => ({ filter: { ...s.filter, query } })),
+  setView: (sido, id, query) =>
+    set((s) => ({
+      selectedSido: sido,
+      selectedId: id,
+      hoveredId: null,
+      filter: query === undefined ? s.filter : { ...s.filter, query },
+    })),
 }));
 
 const norm = (s: string) => s.toLowerCase().replace(/\s+/g, '');

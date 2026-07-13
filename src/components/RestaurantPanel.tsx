@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useStore, visibleRestaurants, searchResults } from '../store';
 import type { Sido } from '../lib/sido';
+import { nav } from '../navigation';
 import { RestaurantCard } from './RestaurantCard';
 
 const SEARCH_CAP = 200;
@@ -10,9 +11,6 @@ export function RestaurantPanel() {
   const results = useStore(searchResults);
   const list = useStore(visibleRestaurants);
   const hoverRestaurant = useStore((s) => s.hoverRestaurant);
-  const selectRestaurant = useStore((s) => s.selectRestaurant);
-  const selectSido = useStore((s) => s.selectSido);
-  const setQuery = useStore((s) => s.setQuery);
   const hoveredId = useStore((s) => s.hoveredId);
   const selectedId = useStore((s) => s.selectedId);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -27,11 +25,7 @@ export function RestaurantPanel() {
   // 검색 모드: 전국 결과. 결과 클릭 시 해당 지역으로 이동하고 검색 종료.
   if (results) {
     const shown = results.slice(0, SEARCH_CAP);
-    const openResult = (sidoName: string, id: string) => {
-      selectSido(sidoName as Sido);
-      selectRestaurant(id);
-      setQuery('');
-    };
+    const openResult = (sidoName: string, id: string) => nav.openResult(sidoName as Sido, id);
     return (
       <div className="panel" ref={containerRef}>
         <p className="panel-count">
@@ -69,7 +63,7 @@ export function RestaurantPanel() {
             className={cls}
             onMouseEnter={() => hoverRestaurant(r.id)}
             onMouseLeave={() => hoverRestaurant(null)}
-            onClick={() => selectRestaurant(r.id)}
+            onClick={() => nav.openRestaurant(r.id)}
           >
             <RestaurantCard restaurant={r} />
           </div>

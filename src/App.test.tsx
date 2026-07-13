@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import { App } from './App';
 import { useStore } from './store';
 import type { Restaurant } from './types';
@@ -44,5 +44,17 @@ describe('App', () => {
     const seoul = await screen.findByTestId('sido-서울특별시');
     fireEvent.click(seoul);
     await waitFor(() => expect(screen.getAllByText('하동관').length).toBeGreaterThan(0));
+  });
+
+  it('browser back (popstate) returns from province to national instead of exiting', async () => {
+    render(<App />);
+    const seoul = await screen.findByTestId('sido-서울특별시');
+    fireEvent.click(seoul);
+    await waitFor(() => expect(useStore.getState().selectedSido).toBe('서울특별시'));
+    // 브라우저 뒤로가기/스와이프 시뮬레이션
+    act(() => {
+      window.dispatchEvent(new PopStateEvent('popstate', { state: { view: { sido: null, id: null } } }));
+    });
+    await waitFor(() => expect(useStore.getState().selectedSido).toBeNull());
   });
 });
