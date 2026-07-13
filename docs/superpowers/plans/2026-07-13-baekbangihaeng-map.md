@@ -53,8 +53,8 @@ npx playwright install chromium
   "test:watch": "vitest",
   "e2e": "playwright test",
   "build:geo": "tsx scripts/build-geo.ts",
-  "assign:coords": "tsx scripts/assign-coords.ts src/data/restaurants.seed.json src/data/restaurants.json",
-  "validate:data": "tsx scripts/validate-data.ts src/data/restaurants.json"
+  "assign:coords": "tsx scripts/assign-coords.ts src/data/restaurants.seed.json public/data/restaurants.json",
+  "validate:data": "tsx scripts/validate-data.ts public/data/restaurants.json"
 }
 ```
 
@@ -979,7 +979,8 @@ Expected: PASS
 - [ ] **Step 5: `assign-coords.ts` 구현**
 
 ```ts
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { dirname } from 'node:path';
 import { parseAddress } from '../src/lib/addressParser';
 import { buildMapLinks } from '../src/lib/mapLinks';
 import { matchCentroid, jitter, type CentroidRow } from '../src/geo/centroid';
@@ -987,6 +988,7 @@ import type { Restaurant } from '../src/types';
 
 const [, , inPath, outPath] = process.argv;
 if (!inPath || !outPath) throw new Error('usage: assign-coords <in.json> <out.json>');
+mkdirSync(dirname(outPath), { recursive: true });
 
 const list = JSON.parse(readFileSync(inPath, 'utf8')) as Restaurant[];
 const index = JSON.parse(readFileSync('public/geo/emd-centroids.json', 'utf8')) as CentroidRow[];
@@ -1028,7 +1030,7 @@ describe('assign-coords on seed', () => {
   }, 120_000);
 
   it('produces restaurants.json with links filled and most coords matched', () => {
-    const list = JSON.parse(readFileSync('src/data/restaurants.json', 'utf8')) as Restaurant[];
+    const list = JSON.parse(readFileSync('public/data/restaurants.json', 'utf8')) as Restaurant[];
     expect(list.length).toBeGreaterThanOrEqual(12);
     for (const r of list) {
       expect(r.links.naver).toContain('map.naver.com');
@@ -1294,6 +1296,7 @@ import { useEffect, useState } from 'react';
 export function useGeo<T = any>(url: string): { data: T | null } {
   const [data, setData] = useState<T | null>(null);
   useEffect(() => {
+    if (!url) return;
     let alive = true;
     fetch(url).then((r) => r.json()).then((d) => { if (alive) setData(d); });
     return () => { alive = false; };
@@ -1970,15 +1973,15 @@ export function App() {
 export default App;
 ```
 
-- [ ] **Step 4: `restaurants.json`을 앱에서 로드 가능하게 배치**
+- [ ] **Step 4: 빌드 파이프라인 배선 확인**
 
-`src/data/restaurants.json`(Task 8 산출)을 앱이 `/data/restaurants.json`으로 fetch하도록 `public/data/`로 복사하는 단계를 빌드에 추가. `package.json` scripts의 `assign:coords`의 out 경로를 `public/data/restaurants.json`으로 바꾸거나, 복사 스크립트 추가:
+`assign:coords`는 이미 `public/data/restaurants.json`으로 출력하므로(Task 1/8), 앱은 이를 `/data/restaurants.json`으로 fetch한다(Vite가 `public/`를 루트로 서빙). `package.json`에 데이터 선행 생성 스크립트를 추가한다:
 
 ```json
 "prebuild": "npm run build:geo && npm run assign:coords && npm run validate:data"
 ```
 
-그리고 `assign:coords`의 out을 `public/data/restaurants.json`으로 조정한다. `public/data/` 디렉토리를 만들고 커밋한다.
+`public/data/restaurants.json`은 앱이 로드하므로 커밋한다(Task 8에서 이미 생성됨).
 
 - [ ] **Step 5: `main.tsx` 정리 및 `App.css` 최소 스타일 작성**
 
