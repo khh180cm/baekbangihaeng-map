@@ -107,49 +107,12 @@ html, body { margin: 0; overscroll-behavior-y: none; }
 /* 카드 */
 .card {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  gap: 12px;
   border: 1px solid #efe2ce;
   border-radius: 12px;
   padding: 12px;
   background: #fff;
 }
-.card-row { display: flex; gap: 12px; }
-
-/* 인라인 사진 갤러리 */
-.photo-strip {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  padding: 2px 0;
-  scroll-snap-type: x mandatory;
-}
-.photo {
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 10px;
-  flex: 0 0 auto;
-  background: #f4ead9;
-  scroll-snap-align: start;
-}
-.photo-none { color: #6b5b49; font-size: 13px; padding: 8px; }
-.photo-toggle {
-  font-size: 14px;
-  font-weight: 600;
-  color: #fff;
-  background: #e08a3c;
-  border: none;
-  border-radius: 8px;
-  min-height: 40px;
-  padding: 0 14px;
-  display: inline-flex;
-  align-items: center;
-  cursor: pointer;
-}
-.photo-toggle.open { background: #b06a2c; }
-.photo-toggle:active { opacity: 0.85; }
 .card-thumb {
   width: 72px; height: 72px;
   display: flex; align-items: center; justify-content: center;
