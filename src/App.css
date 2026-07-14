@@ -35,9 +35,11 @@ html, body { margin: 0; overscroll-behavior-y: none; }
 
 .side {
   flex: 1 1 420px;
-  max-height: 84vh;
+  height: 84vh;
   overflow: auto;
   min-width: 320px;
+  display: flex;
+  flex-direction: column;
 }
 
 /* 시/도 헤더 */
@@ -162,6 +164,7 @@ html, body { margin: 0; overscroll-behavior-y: none; }
 .loading { color: #6b5b49; padding: 24px; }
 
 .app-footer {
+  margin-top: auto; /* 리스트가 짧아도 푸터는 항상 컬럼 하단에 */
   padding: 16px 20px 28px;
   border-top: 1px solid #f0e2cf;
   color: #6b5b49;
@@ -197,6 +200,7 @@ html, body { margin: 0; overscroll-behavior-y: none; }
   .side {
     flex: 1 1 auto;
     min-height: 0;
+    height: auto;
     width: 100%;
     min-width: 0;
     max-height: none;

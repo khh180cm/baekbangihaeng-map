@@ -21,12 +21,6 @@ export function RestaurantCard({ restaurant: r, showRegion = false }: { restaura
         {r.signatureMenu && <p className="sig">🍽️ 대표메뉴: {r.signatureMenu}</p>}
         {r.menus.length > 0 && <p className="menus">메뉴: {r.menus.join(', ')}</p>}
         <p className="addr">📍 {r.address}</p>
-        <p className="epi">
-          백반기행
-          {r.episode.season ? ` ${r.episode.season}기` : ' 출연'}
-          {r.episode.no ? ` · ${r.episode.no}회` : ''}
-          {r.episode.airDate ? ` · ${r.episode.airDate}` : ''}
-        </p>
         {r.coord === null && <p className="warn">위치 미확인</p>}
         <div className="links">
           <a href={r.links.naver}>네이버 지도</a>
