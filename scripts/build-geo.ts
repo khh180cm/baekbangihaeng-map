@@ -1,6 +1,5 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { feature } from 'topojson-client';
-import { geoCentroid } from 'd3-geo';
 import polylabel from 'polylabel';
 import { canonicalSido, type Sido } from '../src/lib/sido';
 
@@ -63,19 +62,16 @@ writeFileSync(
   JSON.stringify([...sidoNameByCode].map(([sidoCode, sido]) => ({ sidoCode, sido }))),
 );
 
-// --- 시군구 (+ centroid fallback) ---
+// --- 시군구 ---
 const muniFC = toFC(readTopo('scripts/raw/municipalities.topojson.json'), PROP.municipalitiesObject);
 const sigunguNameByCode = new Map<string, string>();
 const sigunguBySido = new Map<string, any[]>();
-const sigunguCentroids: Array<{ sido: Sido; sigungu: string; lng: number; lat: number }> = [];
 for (const f of muniFC.features) {
   const raw = String(f.properties[PROP.code]);
   const sidoCode = sidoCodeOf(raw);
   const sigunguCode = sigunguCodeOf(raw);
   const sido = sidoNameByCode.get(sidoCode)!;
   const sigungu = f.properties[PROP.name];
-  const [lng, lat] = geoCentroid(f);
-  sigunguCentroids.push({ sido, sigungu, lng, lat });
   sigunguNameByCode.set(sigunguCode, sigungu);
   f.properties = { sidoCode, sigunguCode, sido, sigungu };
   if (!sigunguBySido.has(sidoCode)) sigunguBySido.set(sidoCode, []);
@@ -84,12 +80,11 @@ for (const f of muniFC.features) {
 for (const [sidoCode, features] of sigunguBySido) {
   writeFileSync(`public/geo/sigungu/${sidoCode}.json`, JSON.stringify({ type: 'FeatureCollection', features }));
 }
-writeFileSync('public/geo/sigungu-centroids.json', JSON.stringify(sigunguCentroids));
 
-// --- 읍면동(행정동) + centroid ---
+// --- 읍면동(행정동) ---
 const emdFC = toFC(readTopo('scripts/raw/submunicipalities.topojson.json'), PROP.submunicipalitiesObject);
 const emdBySido = new Map<string, any[]>();
-const centroids: Array<{ sido: Sido; sigungu: string; emd: string; lng: number; lat: number }> = [];
+let emdCount = 0;
 for (const f of emdFC.features) {
   const raw = String(f.properties[PROP.code]);
   const sidoCode = sidoCodeOf(raw);
@@ -98,14 +93,12 @@ for (const f of emdFC.features) {
   const sigungu = sigunguNameByCode.get(sigunguCode) ?? '';
   const emd = f.properties[PROP.name];
   f.properties = { sidoCode, sigunguCode, emdCode: raw, sido, sigungu, emd };
-  const [lng, lat] = geoCentroid(f);
-  centroids.push({ sido, sigungu, emd, lng, lat });
+  emdCount++;
   if (!emdBySido.has(sidoCode)) emdBySido.set(sidoCode, []);
   emdBySido.get(sidoCode)!.push(f);
 }
 for (const [sidoCode, features] of emdBySido) {
   writeFileSync(`public/geo/emd/${sidoCode}.json`, JSON.stringify({ type: 'FeatureCollection', features }));
 }
-writeFileSync('public/geo/emd-centroids.json', JSON.stringify(centroids));
 
-console.log(`geo build done: ${sidoNameByCode.size} sido, ${sigunguCentroids.length} sigungu, ${centroids.length} emd centroids`);
+console.log(`geo build done: ${sidoNameByCode.size} sido, ${sigunguNameByCode.size} sigungu, ${emdCount} emd`);

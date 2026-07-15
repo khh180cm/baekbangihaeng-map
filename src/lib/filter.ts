@@ -1,25 +1,26 @@
 import type { Restaurant } from '../types';
 import type { Category } from './categories';
 
+/** 카테고리 필터의 '전체' 센티넬 */
+export const ALL = 'ALL';
+
 export interface FilterState {
-  category: Category | 'ALL';
-  season: number | 'ALL';
+  category: Category | typeof ALL;
   query: string;
 }
 
-export const EMPTY_FILTER: FilterState = { category: 'ALL', season: 'ALL', query: '' };
+export const EMPTY_FILTER: FilterState = { category: ALL, query: '' };
 
 const norm = (s: string) => s.toLowerCase().replace(/\s+/g, '');
 
-export function filterRestaurants(list: Restaurant[], f: FilterState): Restaurant[] {
-  const q = norm(f.query);
-  return list.filter((r) => {
-    if (f.category !== 'ALL' && r.category !== f.category) return false;
-    if (f.season !== 'ALL' && r.episode.season !== f.season) return false;
-    if (q) {
-      const hay = norm(r.name + ' ' + r.menus.join(' '));
-      if (!hay.includes(q)) return false;
-    }
-    return true;
-  });
+/** 카테고리 매칭(ALL이면 전부 통과) */
+export function matchesCategory(r: Restaurant, category: FilterState['category']): boolean {
+  return category === ALL || r.category === category;
+}
+
+/** 이름·메뉴 텍스트 검색(공백·대소문자 무시). 빈 질의면 전부 통과 */
+export function matchesQuery(r: Restaurant, query: string): boolean {
+  const q = norm(query);
+  if (!q) return true;
+  return norm(`${r.name} ${r.menus.join(' ')}`).includes(q);
 }

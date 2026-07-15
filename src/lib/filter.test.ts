@@ -1,34 +1,31 @@
 import { describe, it, expect } from 'vitest';
-import { filterRestaurants, EMPTY_FILTER, type FilterState } from './filter';
+import { matchesCategory, matchesQuery, EMPTY_FILTER, ALL } from './filter';
 import type { Restaurant } from '../types';
 
 const make = (over: Partial<Restaurant>): Restaurant => ({
   id: 'x', name: '식당', region: { sido: '서울특별시', sigungu: '종로구', emd: '관철동' },
   address: '', coord: null, menus: [], signatureMenu: null, category: '한식',
-  episode: { season: 1, no: null, airDate: null }, links: { naver: '', kakao: '' },
-  confidence: 'high', sources: [], ...over,
+  image: null, images: [], episode: { season: null, no: null, airDate: null },
+  links: { naver: '', kakao: '' }, confidence: 'high', sources: [], ...over,
 });
 
-describe('filterRestaurants', () => {
-  const list = [
-    make({ id: 'a', name: '국밥집', category: '한식', episode: { season: 1, no: null, airDate: null } }),
-    make({ id: 'b', name: '물회집', category: '해산물', episode: { season: 2, no: null, airDate: null } }),
-    make({ id: 'c', name: '국수집', category: '면', menus: ['잔치국수'], episode: { season: 2, no: null, airDate: null } }),
-  ];
+describe('filter predicates', () => {
+  it('EMPTY_FILTER has ALL category and empty query', () => {
+    expect(EMPTY_FILTER).toEqual({ category: ALL, query: '' });
+  });
 
-  it('returns all with EMPTY_FILTER', () => {
-    expect(filterRestaurants(list, EMPTY_FILTER)).toHaveLength(3);
+  it('matchesCategory passes everything for ALL, else matches exact', () => {
+    const r = make({ category: '해산물' });
+    expect(matchesCategory(r, ALL)).toBe(true);
+    expect(matchesCategory(r, '해산물')).toBe(true);
+    expect(matchesCategory(r, '고기')).toBe(false);
   });
-  it('filters by category', () => {
-    const f: FilterState = { ...EMPTY_FILTER, category: '해산물' };
-    expect(filterRestaurants(list, f).map((r) => r.id)).toEqual(['b']);
-  });
-  it('filters by season', () => {
-    const f: FilterState = { ...EMPTY_FILTER, season: 2 };
-    expect(filterRestaurants(list, f).map((r) => r.id)).toEqual(['b', 'c']);
-  });
-  it('matches query against name and menus', () => {
-    expect(filterRestaurants(list, { ...EMPTY_FILTER, query: '국' }).map((r) => r.id)).toEqual(['a', 'c']);
-    expect(filterRestaurants(list, { ...EMPTY_FILTER, query: '잔치' }).map((r) => r.id)).toEqual(['c']);
+
+  it('matchesQuery searches name and menus, space/case insensitive; empty query passes', () => {
+    const r = make({ name: '국수집', menus: ['잔치국수', '비빔국수'] });
+    expect(matchesQuery(r, '')).toBe(true);
+    expect(matchesQuery(r, '국수')).toBe(true);
+    expect(matchesQuery(r, '잔 치')).toBe(true); // 공백 무시
+    expect(matchesQuery(r, '없는메뉴')).toBe(false);
   });
 });
